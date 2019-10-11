@@ -1,0 +1,32 @@
+stages:
+  - prepare-build
+  - build
+
+# cache:
+#   paths:
+#     - ~/.cache/pip/
+env_check:
+  stage: prepare-build
+  image: alpine
+  script: 
+    - sleep 1s
+    - cat /os-release
+
+git_check:
+  stage: prepare-build
+  image: alpine/git
+  script:
+    - echo "check git revision"
+    - git log -1
+
+build_kaniko:
+  image: gcr.io/kaniko-project/executor:debug
+  stage: build
+  variables:
+    CI_REGISTRY_IMAGE: "hub.eurekacloud.io/s4/build-kaniko-gitlab"
+    CI_COMMIT_TAG: "debug"
+  before_script:
+    - echo $CI_PROJECT_DIR
+    - pwd
+  script:
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/deploy/Dockerfile --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
