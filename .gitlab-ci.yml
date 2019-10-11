@@ -15,6 +15,12 @@ env_check:
   script: 
     - sleep 1s
     - cat /etc/os-release
+    - touch testFile
+    - mv testFile etc/
+  artifacts:
+    paths:
+      - /builds
+    
 
 git_check:
   stage: prepare-build
@@ -22,12 +28,8 @@ git_check:
   script:
     - echo "check git revision"
     - git log -1
-    - touch testFile
-    - mv testFile binaries/
-  artifacts:
-    paths:
-      - binaries/
-    
+
+   
 
 code_scan:
   stage: test
@@ -36,9 +38,10 @@ code_scan:
     sonar_token: 6063542555276c71fa96a481f23fa07346f5e655 
   script:
     - echo "scanning"
+    - ls /tmp/
     # - sonar-scanner -Dsonar.projectKey=Tonyqu123_kaniko -Dsonar.organization=tonyqu123 -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$sonar_token -Dsonar.scm.disabled=true
   dependencies:
-    - git_check
+    - env_check
 
 build_release:
   image: gcr.io/kaniko-project/executor:debug
