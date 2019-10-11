@@ -23,6 +23,7 @@ git_check:
     - echo "check git revision"
     - git log -1
     - mkdir test-dir
+    - touch testFile
 
 code_scan:
   stage: test
@@ -31,7 +32,8 @@ code_scan:
     sonar_token: 6063542555276c71fa96a481f23fa07346f5e655 
   script:
     - echo "scanning"
-    - ls | grep test-dir
+    - ls 
+    - ls | grep test
     # - sonar-scanner -Dsonar.projectKey=Tonyqu123_kaniko -Dsonar.organization=tonyqu123 -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$sonar_token -Dsonar.scm.disabled=true
 
 build_release:
