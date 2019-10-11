@@ -1,10 +1,13 @@
 stages:
   - prepare-build
+  - test
   - build
+  - post-build
 
 # cache:
 #   paths:
 #     - ~/.cache/pip/
+
 env_check:
   stage: prepare-build
   image: alpine
@@ -18,6 +21,18 @@ git_check:
   script:
     - echo "check git revision"
     - git log -1
+
+code_scan:
+  stage: test
+  image: newtmitch/sonar-scanner
+  script:
+    - echo "scanning"
+    - sonar-scanner \
+      -Dsonar.projectKey=Tonyqu123_kaniko \
+      -Dsonar.organization=tonyqu123 \
+      -Dsonar.sources=. \
+      -Dsonar.host.url=https://sonarcloud.io \
+      -Dsonar.login=d094b201296f509c2695b7ec41b4a54cb9c25df7
 
 build_release:
   image: gcr.io/kaniko-project/executor:debug
@@ -42,3 +57,9 @@ build_debug:
     - pwd
   script:
     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/deploy/Dockerfile_debug --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
+
+doe:
+  image: alpine
+  stage: post-build
+  script:
+    - echo "post build"
