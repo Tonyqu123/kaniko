@@ -10,7 +10,7 @@ env_check:
   image: alpine
   script: 
     - sleep 1s
-    - cat /os-release
+    - cat etc/os-release
 
 git_check:
   stage: prepare-build
