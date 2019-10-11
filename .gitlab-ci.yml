@@ -71,11 +71,10 @@ build_release:
 #     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/deploy/Dockerfile_debug --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
 
 skaffold_build:
-  image: ubuntu
+  image: byrnedo/alpine-curl
   stage: tag-build
   script:
-    - echo "skaffold !"
-    - curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+    - -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
   cache:
     paths:
       - skaffold
