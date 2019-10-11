@@ -12,7 +12,7 @@ env_check:
     - sleep 1s
     - ls /etc 
     - ls /etc | grep release
-    - cat etc/os-release
+    - cat /etc/os-release
 
 git_check:
   stage: prepare-build
