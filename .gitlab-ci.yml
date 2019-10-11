@@ -16,10 +16,11 @@ env_check:
     - sleep 1s
     - cat /etc/os-release
     - touch testFile
-    - mv testFile etc/
+    - mkdir testDir
+    - mv testFile testDir/
   artifacts:
     paths:
-      - /builds
+      - testDir/
     
 
 git_check:
