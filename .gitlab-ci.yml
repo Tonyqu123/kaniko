@@ -3,7 +3,7 @@ stages:
   - test
   - build
   - tag-build
-  - post-build
+  - deploy
 
 # cache:
 #   paths:
@@ -75,9 +75,15 @@ skaffold_build:
   stage: tag-build
   script:
     - echo "skaffold !"
-    
+    - curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+  cache:
+    paths:
+      - skaffold
+
 doe:
-  image: alpine
-  stage: post-build
+  image: ubuntu
+  stage: deploy
   script:
-    - echo "post build"
+    - echo "deploy"
+    - curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+    - ls 
