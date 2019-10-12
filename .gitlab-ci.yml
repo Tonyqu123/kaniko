@@ -8,7 +8,7 @@ before_script:
 variables:
   TEST_DIR: vendorTestcache
 
-  
+
 job A:
   stage: build
 
@@ -25,6 +25,7 @@ job A:
 job B:
   stage: test
   script:
+  - sleep 10s
   - cat $TEST_DIR/hello.txt
   cache:
     key: build-cache
