@@ -24,8 +24,8 @@ job A:
 
 job B:
   stage: test
+  cache:
+    key: build-cache
   script:
   - sleep 10s
   - cat $TEST_DIR/hello.txt
-  cache:
-    key: build-cache
