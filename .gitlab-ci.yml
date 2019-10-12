@@ -8,7 +8,7 @@ before_script:
 job A:
   stage: build
   script:
-  - mkdir vendorTestcache/
+  - find -type d -name templates || mkdir vendorTestcache/
   - echo "build" > vendorTestcache/hello.txt
   cache:
     key: build-cache
