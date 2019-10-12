@@ -70,16 +70,15 @@ stages:
 #   script:
 #     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/deploy/Dockerfile_debug --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
 
+
 .prep_skaffold: &prep_skaffold
   variables:
     TOOLS_DIR_NAME: tools
   before_script:
     - echo "check skaffold"
-    - ls -d */ | grep $TOOLS_DIR_NAME || mkdir $TOOLS_DIR_NAME &&
-      curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 &&
-      chmod +x skaffold &&
-      mv skaffold $TOOLS_DIR_NAME/ &&
-      export PATH=$PATH:$PWD/$TOOLS_DIR_NAME
+    - ls -d */ | grep $TOOLS_DIR_NAME || source ./download.sh
+
+    - export PATH=$PATH:$PWD/$TOOLS_DIR_NAME
     - ls | grep $TOOLS_DIR_NAME
     - ls $TOOLS_DIR_NAME/
 
