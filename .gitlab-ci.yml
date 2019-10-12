@@ -70,16 +70,28 @@ stages:
 #   script:
 #     - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/deploy/Dockerfile_debug --destination $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
 
+.prep_skaffold: &prep_skaffold
+  variables:
+    TOOLS_DIR_NAME: skaffold
+  before_script:
+    - echo "check skaffold"
+    - ls -d */ | grep $TOOLS_DIR_NAME || mkdir $TOOLS_DIR_NAME &&\
+      curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 &&\
+      mv skaffold $TOOLS_DIR_NAME/ &&\
+      export PATH=$PATH:$PWD/skaffold
+
 skaffold_build:
   image: byrnedo/alpine-curl
   stage: tag-build
+  <<: *prep_skaffold
   script:
     - echo $CI_PROJECT_DIR
     - pwd
-    - mkdir tools
-    - curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
-    - mv skaffold tools/ 
+    - echo $PATH
+    - skaffold
+
   cache:
+    key: skaffold-binary
     paths:
       - tools/
 
