@@ -1,0 +1,34 @@
+stages:
+- build
+- test
+
+before_script:
+- echo "Hello"
+
+variables:
+  TEST_DIR: vendorTestcache
+
+
+job A:
+  stage: build
+
+  script:
+  - find -type d -name $TEST_DIR || mkdir $TEST_DIR/
+  - echo "build" > $TEST_DIR/hello.txt
+  cache:
+    key: build-cache
+    paths:
+    - $TEST_DIR/
+  after_script:
+  - echo "World"
+
+job B:
+  stage: test
+  cache:
+    key: build-cache
+    paths:
+    - $TEST_DIR/
+    policy: pull
+  script:
+  - sleep 10s
+  - cat $TEST_DIR/hello.txt
