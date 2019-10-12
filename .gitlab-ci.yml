@@ -5,21 +5,26 @@ stages:
 before_script:
 - echo "Hello"
 
+variables:
+  TEST_DIR: vendorTestcache
+
+  
 job A:
   stage: build
+
   script:
-  - find -type d -name templates || mkdir vendorTestcache/
-  - echo "build" > vendorTestcache/hello.txt
+  - find -type d -name $TEST_DIR || mkdir $TEST_DIR/
+  - echo "build" > $TEST_DIR/hello.txt
   cache:
     key: build-cache
     paths:
-    - vendorTestcache/
+    - $TEST_DIR/
   after_script:
   - echo "World"
 
 job B:
   stage: test
   script:
-  - cat vendorTestcache/hello.txt
+  - cat $TEST_DIR/hello.txt
   cache:
     key: build-cache
