@@ -74,14 +74,18 @@ skaffold_build:
   image: byrnedo/alpine-curl
   stage: tag-build
   script:
+    - echo $CI_PROJECT_DIR
+    - pwd
+    - mkdir tools
     - curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+    - mv skaffold tools/ 
   cache:
     paths:
-      - skaffold
+      - tools/
 
-doe:
-  image: byrnedo/alpine-curl
-  stage: deploy
-  script:
-    - echo "deploy"
-    - curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+# doe:
+#   image: byrnedo/alpine-curl
+#   stage: deploy
+#   script:
+#     - echo "deploy"
+#     - curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
