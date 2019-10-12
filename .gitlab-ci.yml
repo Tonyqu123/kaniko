@@ -75,10 +75,12 @@ stages:
     TOOLS_DIR_NAME: skaffold
   before_script:
     - echo "check skaffold"
-    - ls -d */ | grep $TOOLS_DIR_NAME || mkdir $TOOLS_DIR_NAME &&\
-      curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 &&\
-      mv skaffold $TOOLS_DIR_NAME/ &&\
+    - ls -d */ | grep $TOOLS_DIR_NAME || mkdir $TOOLS_DIR_NAME &&
+      curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 &&
+      mv skaffold $TOOLS_DIR_NAME/ &&
       export PATH=$PATH:$PWD/skaffold
+    - ls | grep skaffold
+    - ls skaffold/
 
 skaffold_build:
   image: byrnedo/alpine-curl
