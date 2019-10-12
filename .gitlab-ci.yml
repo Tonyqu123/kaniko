@@ -28,6 +28,7 @@ job B:
     key: build-cache
     paths:
     - $TEST_DIR/
+    policy: pull
   script:
   - sleep 10s
   - cat $TEST_DIR/hello.txt
