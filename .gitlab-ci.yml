@@ -80,7 +80,7 @@ skaffold_build:
       - skaffold
 
 doe:
-  image: ubuntu
+  image: byrnedo/alpine-curl
   stage: deploy
   script:
     - echo "deploy"
