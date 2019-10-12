@@ -8,18 +8,18 @@ before_script:
 job A:
   stage: build
   script:
-  - mkdir vendor/
-  - echo "build" > vendor/hello.txt
+  - mkdir vendorTestcache/
+  - echo "build" > vendorTestcache/hello.txt
   cache:
     key: build-cache
     paths:
-    - vendor/
+    - vendorTestcache/
   after_script:
   - echo "World"
 
 job B:
   stage: test
   script:
-  - cat vendor/hello.txt
+  - cat vendorTestcache/hello.txt
   cache:
     key: build-cache
